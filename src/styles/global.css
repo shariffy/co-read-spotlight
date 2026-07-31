@@ -1,0 +1,58 @@
+:root {
+  --ink: #1a2e38;
+  --ink-soft: #3d5a66;
+  --paper: #f7f1e6;
+  --paper-deep: #ebe3d4;
+  --sky: #5a9aab;
+  --sky-deep: #1a3a4a;
+  --sun: #e8b84a;
+  --bubble: #fffdf8;
+  --glow: #f0c75e;
+  --parent-font: 'Fraunces', Georgia, serif;
+  --child-font: 'Nunito', system-ui, sans-serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  background-color: var(--sky-deep);
+}
+
+body {
+  font-family: var(--child-font);
+  color: var(--ink);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    radial-gradient(ellipse 120% 80% at 10% 0%, #7eb8c9 0%, transparent 55%),
+    radial-gradient(ellipse 90% 70% at 100% 20%, #f0c75e55 0%, transparent 50%),
+    linear-gradient(165deg, #2a5566 0%, var(--sky-deep) 45%, #0f2833 100%);
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
