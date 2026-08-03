@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from 'react'
 import { BuddyReader } from './components/BuddyReader'
-import { DayNav } from './components/DayNav'
+import { LevelNav } from './components/LevelNav'
+import { TOTAL_LEVELS } from './data/level-ladder'
 import { theRainDay } from './data/stories/the-rain-day'
 import './styles/app.css'
 
@@ -39,20 +40,20 @@ function Confetti({ burst }: { burst: number }) {
 }
 
 export default function App() {
-  const [dayIndex, setDayIndex] = useState(0)
+  const [levelIndex, setLevelIndex] = useState(0)
   const [pageIndex, setPageIndex] = useState(0)
   const [pageTransition, setPageTransition] = useState<'prev' | 'next'>('next')
   const [pageTransitionKey, setPageTransitionKey] = useState(0)
   const [completionBurst, setCompletionBurst] = useState(0)
 
-  const day = theRainDay.days[dayIndex]
-  const page = day.pages[pageIndex]
+  const level = theRainDay.levels[levelIndex]
+  const page = level.pages[pageIndex]
 
   const turnPage = (direction: 'prev' | 'next') => {
     const nextIndex =
       direction === 'prev'
         ? Math.max(0, pageIndex - 1)
-        : Math.min(day.pages.length - 1, pageIndex + 1)
+        : Math.min(level.pages.length - 1, pageIndex + 1)
     if (nextIndex === pageIndex) return
     setCompletionBurst(0)
     setPageTransition(direction)
@@ -64,8 +65,8 @@ export default function App() {
     <div className="app">
       <header className="brand-bar">
         <h1 className="brand">Co-Read Spotlight</h1>
-        <span className="day-chip">
-          Day {day.day} · {theRainDay.title}
+        <span className="level-chip">
+          Level {level.level} / {TOTAL_LEVELS} · {theRainDay.title}
         </span>
       </header>
       <BuddyReader
@@ -73,22 +74,18 @@ export default function App() {
         page={page}
         animationDirection={pageTransition}
       />
-      <DayNav
+      <LevelNav
         pageIndex={pageIndex}
-        pageCount={day.pages.length}
-        dayIndex={dayIndex}
-        dayCount={theRainDay.days.length}
+        pageCount={level.pages.length}
+        levelIndex={levelIndex}
+        levelCount={theRainDay.levels.length}
         onPrevPage={() => turnPage('prev')}
         onNextPage={() => turnPage('next')}
         onComplete={() => setCompletionBurst((burst) => burst + 1)}
-        onPrevDay={() => {
+        onLevelChange={(next) => {
+          if (next === levelIndex) return
           setCompletionBurst(0)
-          setDayIndex((d) => Math.max(0, d - 1))
-          setPageIndex(0)
-        }}
-        onNextDay={() => {
-          setCompletionBurst(0)
-          setDayIndex((d) => Math.min(theRainDay.days.length - 1, d + 1))
+          setLevelIndex(next)
           setPageIndex(0)
         }}
       />

@@ -26,8 +26,9 @@ export type StoryPage = {
   flow?: StoryBlock[]
 }
 
-export type StoryDay = {
-  day: number
+export type StoryLevel = {
+  /** Global ladder index (1–56). */
+  level: number
   title: string
   knownGraphemes: string[]
   targetGraphemes: string[]
@@ -37,5 +38,6 @@ export type StoryDay = {
 export type StoryPack = {
   id: string
   title: string
-  days: StoryDay[]
+  /** Shipped level variants (sparse OK; keep global `level` indices stable). */
+  levels: StoryLevel[]
 }
